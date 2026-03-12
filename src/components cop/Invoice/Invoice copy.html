@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Invoice PDF</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+      margin: 0;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      box-sizing: border-box;
+    }
+    form input[type="text"],
+    form select,
+    form textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    form textarea {
+      min-height: 70px;
+    }
+    label {
+      width: 100%;
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+    .btn-group {
+      width: 100%;
+      margin-top: 10px;
+      text-align: right;
+    }
+    .btn {
+      padding: 10px 18px;
+      background-color: #25d366;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    .btn:disabled {
+      background-color: #9ce8ba;
+      cursor: not-allowed;
+    }
+    .btn:hover:not(:disabled) {
+      background-color: #1da851;
+    }
+
+    #invoiceContent {
+      max-width: 700px;
+      margin: 25px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+      /* supaya hidden tapi tetap ada di DOM */
+      visibility: hidden;
+      height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+    #invoiceContent.show {
+      visibility: visible;
+      height: auto;
+      overflow: visible;
+    }
+
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .invoice-title {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px 15px;
+      text-align: left;
+    }
+    th {
+      background: #f5f5f5;
+    }
+    .text-right {
+      text-align: right;
+    }
+    p.note {
+      margin-top: 20px;
+      font-style: italic;
+      color: #555;
+    }
+    p.thanks {
+      text-align: right;
+      margin-top: 30px;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        padding: 20px 15px;
+      }
+      .invoice-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .invoice-title {
+        font-size: 24px;
+      }
+      table, th, td {
+        font-size: 14px;
+      }
+      .btn {
+        width: 100%;
+        font-size: 18px;
+        padding: 14px;
+      }
+      .btn-group {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Buat Invoice Online</h2>
+
+  <form id="invoiceForm" onsubmit="return false;">
+    <label for="nama">Nama Pelanggan</label>
+    <input type="text" id="nama" placeholder="Masukkan nama pelanggan" required />
+
+    <label for="nomor">Nomor WhatsApp (628xx)</label>
+    <input type="text" id="nomor" placeholder="Contoh: 6281234567890" required />
+
+    <label for="produk">Pilih Produk</label>
+    <select id="produk" required>
+      <option value="" disabled selected>-- Pilih produk --</option>
+      <option value="vakum tungau" data-harga="50000">Vakum Tungau (Rp 50.000)</option>
+      <option value="vakum jok" data-harga="70000">Vakum Jok (Rp 70.000)</option>
+      <option value="fogging" data-harga="150000">Fogging (Rp 150.000)</option>
+    </select>
+
+    <label for="harga">Harga (bisa diubah manual)</label>
+    <input type="text" id="harga" placeholder="Harga produk" required />
+
+    <label for="catatan">Catatan (opsional)</label>
+    <textarea id="catatan" placeholder="Masukkan catatan tambahan"></textarea>
+
+    <div class="btn-group">
+      <button type="button" class="btn" id="btnGenerate" onclick="generateInvoice()">Buat Invoice</button>
+      <button type="button" class="btn" id="btnDownload" onclick="downloadPDF()" disabled style="display:none;">Download PDF</button>
+    </div>
+  </form>
+
+  <div id="invoiceContent" class="invoice-container">
+    <div class="invoice-header">
+      <div>
+        <div class="invoice-title">INVOICE</div>
+        <div id="invoiceDate"></div>
+      </div>
+      <div style="text-align:right;">
+        <strong>STRONGMAN</strong><br />
+        WA: +62 812-xxx<br />
+        www.strongman.my.id
+      </div>
+    </div>
+
+    <div><strong>Kepada:</strong> <span id="outNama"></span></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Produk</th>
+          <th>Harga Satuan</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="outProduk"></td>
+          <td id="outHarga"></td>
+          <td id="outTotal"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Catatan:</strong> <span id="outCatatan"></span></p>
+    <p class="text-right thanks">Terima kasih atas kepercayaan Anda!</p>
+  </div>
+
+  <script>
+    function formatRupiah(angka) {
+      if (!angka) return '';
+      let num = angka.toString().replace(/\D/g, '');
+      let sisa = num.length % 3;
+      let rupiah = num.substr(0, sisa);
+      let ribuan = num.substr(sisa).match(/\d{3}/g);
+
+      if (ribuan) {
+        let separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+
+      return rupiah ? 'Rp ' + rupiah : '';
+    }
+
+    const hargaInput = document.getElementById('harga');
+    hargaInput.addEventListener('input', function(e) {
+      let cursorPos = this.selectionStart;
+      let beforeLength = this.value.length;
+
+      let cleaned = this.value.replace(/\D/g, '');
+      this.value = formatRupiah(cleaned);
+
+      let afterLength = this.value.length;
+      cursorPos += afterLength - beforeLength;
+      this.setSelectionRange(cursorPos, cursorPos);
+    });
+
+    const produkSelect = document.getElementById('produk');
+    produkSelect.addEventListener('change', function() {
+      const selectedOption = produkSelect.options[produkSelect.selectedIndex];
+      const hargaDefault = selectedOption.getAttribute('data-harga');
+      if (hargaDefault) {
+        hargaInput.value = formatRupiah(hargaDefault);
+      } else {
+        hargaInput.value = '';
+      }
+    });
+
+    function parseRupiahToNumber(rpString) {
+      return Number(rpString.replace(/[^0-9]/g, '')) || 0;
+    }
+
+    let invoiceText = '';
+
+    function generateInvoice() {
+      const nama = document.getElementById('nama').value.trim();
+      const nomor = document.getElementById('nomor').value.trim();
+      const produk = produkSelect.value;
+      const hargaRp = hargaInput.value.trim();
+      const catatan = document.getElementById('catatan').value.trim();
+
+      if (!nama || !nomor || !produk || !hargaRp) {
+        alert('Mohon lengkapi semua field yang wajib diisi.');
+        return;
+      }
+
+      const harga = parseRupiahToNumber(hargaRp);
+      if (harga <= 0) {
+        alert('Harga harus lebih dari 0.');
+        return;
+      }
+
+      const total = harga;
+
+      document.getElementById('invoiceDate').textContent = `Tanggal: ${new Date().toLocaleDateString('id-ID')}`;
+      document.getElementById('outNama').textContent = nama;
+      document.getElementById('outProduk').textContent = produk;
+      document.getElementById('outHarga').textContent = formatRupiah(harga);
+      document.getElementById('outTotal').textContent = formatRupiah(total);
+      document.getElementById('outCatatan').textContent = catatan || '-';
+
+      invoiceText = `Halo ${nama}, berikut invoice pesanan Anda:\n\nProduk: ${produk}\nHarga: *${formatRupiah(harga)}*\n${catatan ? "Catatan: " + catatan + "\n" : ""}\nTerima kasih 🙏`;
+
+      const invoiceContent = document.getElementById('invoiceContent');
+      invoiceContent.classList.add('show');
+
+      const btnDownload = document.getElementById('btnDownload');
+      btnDownload.style.display = 'inline-block';
+      btnDownload.disabled = false;
+
+      console.log('Invoice content ready:', invoiceContent.innerHTML);
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById('invoiceContent');
+
+      if (!element.classList.contains('show')) {
+        alert("Invoice belum dibuat, klik 'Buat Invoice' dulu.");
+        return;
+      }
+
+      html2pdf().set({
+        margin: 0.5,
+        filename: 'invoice_strongman.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2, logging: true, letterRendering: true },
+        jsPDF: { unit: 'in', format: 'A4', orientation: 'portrait' }
+      }).from(element).save();
+    }
+  </script>
+
+</body>
+</html>

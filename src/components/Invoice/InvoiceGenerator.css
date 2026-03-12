@@ -1,0 +1,441 @@
+/* InvoiceGenerator.css */
+
+/* ======== FORM CONTAINER ======== */
+.inv-form-container {
+  max-width: 900px;
+  margin: 1.5rem auto;
+  padding: 1.5rem 2rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.inv-pdf-container .inv-header-invoice h1 {
+  align-items: center;
+  text-align: center;
+  font-weight: bolder;
+}
+
+/* Header Form */
+.inv-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.inv-logo {
+  width: 80px; /* dari 60px jadi 80px */
+  height: auto;
+  object-fit: contain;
+}
+
+.inv-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+/* Label */
+.inv-label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Input, Select, Textarea */
+.inv-input,
+.inv-select,
+.inv-textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  margin-top: 0.3rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #222;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.inv-input:focus,
+.inv-select:focus,
+.inv-textarea:focus {
+  outline: none;
+  border-color: #0077cc;
+  box-shadow: 0 0 3px rgba(0, 119, 204, 0.5);
+}
+
+.inv-textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-size: 0.95rem;
+}
+
+/* Buttons */
+.inv-btn,
+.inv-btn-add,
+.inv-btn-remove,
+.inv-btn-secondary {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 0.55rem 1.2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: background-color 0.25s;
+  user-select: none;
+}
+
+.inv-btn {
+  background-color: #0077cc;
+  color: white;
+  margin-top: 1.5rem;
+}
+
+.inv-btn:hover:not(:disabled) {
+  background-color: #005fa3;
+}
+
+.inv-btn:disabled {
+  background-color: #a3c4e9;
+  cursor: not-allowed;
+}
+
+.inv-btn-add {
+  background-color: #1a8917;
+  color: white;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.inv-btn-add:hover:not(:disabled) {
+  background-color: #14620f;
+}
+
+/* Style saat tombol disabled (belum dipilih) */
+.inv-btn-add:disabled {
+  background-color: #a3d49a;  /* hijau muda, soft */
+  color: #e6f0e6;             /* warna teks lebih pudar */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.inv-btn-remove {
+  background-color: #cc0000;
+  color: white;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.inv-btn-remove:hover {
+  background-color: #990000;
+}
+
+.inv-btn-secondary {
+  background-color: #666;
+  color: white;
+  margin-left: 0.75rem;
+}
+
+.inv-btn-secondary:hover {
+  background-color: #444;
+}
+
+/* Button Group */
+.inv-btn-group {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+/* Table (form) */
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.inv-table thead tr {
+  background-color: #f0f0f0;
+}
+
+.inv-table th,
+.inv-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem 0.7rem;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.inv-text-right {
+  text-align: right;
+}
+
+.inv-text-center {
+  text-align: center;
+}
+
+.inv-bold {
+  font-weight: 700;
+}
+
+/* Qty control */
+.inv-qty-control {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+.inv-qty-btn {
+  background-color: #0077cc;
+  border: none;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.inv-qty-btn:hover {
+  background-color: #005fa3;
+}
+
+.inv-input-qty {
+  width: 50px;
+  text-align: center;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 1rem;
+  padding: 0.3rem 0.4rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.inv-bank-info {
+  margin-top: 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  color: #333;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}
+
+.inv-bank-info h3 {
+  color: #006abb; /* warna khas BCA */
+  margin: 0 0 6px 0;
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.inv-bank-info p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+
+/* CSS tambahan untuk mobile */
+@media (max-width: 600px) {
+  .inv-form-container {
+    padding: 15px;
+  }
+
+  .inv-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inv-label {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  .inv-input,
+  .inv-select,
+  .inv-textarea {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+
+  .inv-input-price {
+    width: 8rem;
+  }
+
+  .inv-btn-add,
+  .inv-btn,
+  .inv-btn-secondary,
+  .inv-btn-remove {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  .inv-qty-control {
+    display: flex;
+    align-items: center;
+  }
+
+  .inv-qty-btn {
+    flex: 1 1 30px;
+    font-size: 20px;
+    padding: 6px 0;
+  }
+
+  .inv-input-qty {
+    flex: 1 1 50px;
+    text-align: center;
+    font-size: 16px;
+    margin: 0 5px;
+  }
+
+  .inv-table {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+    width: 100%;
+  }
+
+  .inv-table th,
+  .inv-table td {
+    padding: 8px 15px;
+  }
+
+  /* Jika tabel terlalu lebar, buat scroll horizontal */
+  .responsive-table {
+    overflow-x: auto;
+  }
+}
+
+/* ======== PREVIEW INVOICE PDF CONTAINER ======== */
+.inv-pdf-container {
+  display: none;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2.5rem 3rem;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  box-shadow: 0 0 15px rgb(0 0 0 / 0.1);
+  line-height: 1.4;
+  user-select: none;
+}
+
+.inv-pdf-container.inv-show {
+  display: block;
+}
+
+/* Header di preview */
+.inv-pdf-container .inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.3rem;
+  gap: 1rem;
+}
+
+.inv-pdf-container .inv-logo {
+  width: 160px; /* dari 140px jadi 160px */
+  height: auto;
+  object-fit: contain;
+}
+
+/* Detail header kanan */
+.inv-pdf-container .inv-header-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  text-align: right;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.inv-pdf-container .inv-header-item strong {
+  font-weight: 700;
+}
+
+/* Table di preview */
+.inv-pdf-container .inv-table {
+  width: 100%;
+  table-layout: fixed;
+  word-wrap: break-word;
+  border-collapse: collapse;
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+}
+
+.inv-pdf-container .inv-table th,
+.inv-pdf-container .inv-table td {
+  border: 1px solid #bbb;
+  padding: 0.8rem 1rem;
+  vertical-align: middle;
+}
+
+.inv-pdf-container .inv-table thead tr {
+  background-color: #f7f7f7;
+}
+
+/* Contoh buat kolom deskripsi lebih lebar */
+.inv-pdf-container .inv-table th:nth-child(2),
+.inv-pdf-container .inv-table td:nth-child(2) {
+  width: 40%;
+}
+
+.inv-pdf-container .inv-text-right {
+  text-align: right;
+}
+
+.inv-pdf-container .inv-text-center {
+  text-align: center;
+}
+
+.inv-pdf-container .inv-bold {
+  font-weight: 700;
+}
+
+/* Catatan dan ucapan terima kasih */
+.inv-pdf-container .inv-note {
+  margin-top: 1.3rem;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.inv-pdf-container .inv-thanks {
+  margin-top: 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  color: #0077cc;
+}
+
+/* --- Jangan tambahin media query buat .inv-pdf-container, biar ga berubah saat generate PDF --- */

@@ -1,0 +1,299 @@
+/* InvoiceGenerator.css */
+
+/* Reset dan dasar */
+
+
+
+/* * {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 1rem;
+} */
+
+/* .invoice-header h2 {
+  display: flex;
+  align-items: left;
+  text-align: left;
+} */
+
+.logo-invoice {
+  height: 60px;
+  object-fit: contain;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1e40af; /* biru tua */
+}
+
+/* Form styling */
+form {
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  background: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #2563eb; /* biru */
+  outline: none;
+  box-shadow: 0 0 4px #93c5fd;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Tombol */
+button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+button:not(:disabled):hover {
+  background-color: #1d4ed8;
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+thead {
+  background-color: #2563eb;
+  color: white;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+td.text-right {
+  text-align: right;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+tfoot td {
+  font-weight: 700;
+  border-top: 2px solid #2563eb;
+}
+
+/* Hapus button */
+table button {
+  padding: 0.3rem 0.6rem;
+  background-color: #ef4444; /* merah */
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+table button:hover {
+  background-color: #b91c1c;
+}
+
+/* Invoice container */
+.invoice-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.1);
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, max-height 0.4s ease;
+}
+
+.invoice-container.show {
+  opacity: 1;
+  max-height: 10000px; /* cukup besar supaya muat semua */
+}
+
+.invoice-header {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #1e40af;
+}
+
+.note {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #555;
+}
+
+.thanks {
+  margin-top: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  form,
+  .invoice-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1.25rem;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 1rem;
+  }
+
+  td {
+    padding-left: 50%;
+    position: relative;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  td::before {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    white-space: nowrap;
+    color: #2563eb;
+  }
+
+  td:nth-of-type(1)::before {
+    content: "Produk";
+  }
+
+  td:nth-of-type(2)::before {
+    content: "Harga Satuan";
+  }
+
+  td:nth-of-type(3)::before {
+    content: "Jumlah";
+  }
+
+  td:nth-of-type(4)::before {
+    content: "Subtotal";
+  }
+
+  td:nth-of-type(5)::before {
+    content: "Aksi";
+  }
+
+  /* Perbaikan khusus untuk tfoot (total) */
+  tfoot tr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    border-top: 2px solid #2563eb;
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  tfoot td {
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+  }
+
+  /* Buat kolom total label di kanan */
+  tfoot td:first-child {
+    flex: 1 1 auto;
+    text-align: right;
+    padding-right: 1rem;
+    min-width: 100px;
+  }
+
+  tfoot td:last-child {
+    flex: 0 0 auto;
+    text-align: right;
+    min-width: 80px;
+  }
+
+  /* Hide ::before pada tfoot supaya label total gak muncul */
+  tfoot td::before {
+    content: none !important;
+  }
+}
